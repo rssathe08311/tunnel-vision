@@ -1,11 +1,11 @@
 Model Information:
-* title:	Vines
-* source:	https://sketchfab.com/3d-models/vines-0c1d071187e34c4e8aa8059cd4e33544
-* author:	Marcus Vinicius (https://sketchfab.com/ramosmarcus17)
+* title:	hanging plants 001
+* source:	https://sketchfab.com/3d-models/hanging-plants-001-154d1a04fbb7482186d19ebd8c984361
+* author:	catafest (https://sketchfab.com/catafest)
 
 Model License:
 * license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
 * requirements:	Author must be credited. Commercial use is allowed.
 
 If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
-This work is based on "Vines" (https://sketchfab.com/3d-models/vines-0c1d071187e34c4e8aa8059cd4e33544) by Marcus Vinicius (https://sketchfab.com/ramosmarcus17) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+This work is based on "hanging plants 001" (https://sketchfab.com/3d-models/hanging-plants-001-154d1a04fbb7482186d19ebd8c984361) by catafest (https://sketchfab.com/catafest) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
