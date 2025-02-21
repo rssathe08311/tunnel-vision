@@ -1,0 +1,8 @@
+Model Information:
+* title:	Ocean / water perfect loop
+* source:	https://sketchfab.com/3d-models/ocean-water-perfect-loop-8b75f41627b64d97ab0b252f625b1dba
+* author:	Arc4g (https://sketchfab.com/Arc4g)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works
