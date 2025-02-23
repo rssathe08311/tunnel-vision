@@ -1,44 +1,57 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
+    <meta charset="utf-8">
+    <title>Model Switcher (Appear/Disappear)</title>
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/three.js/build/ar-threex.js"></script>
     <script>
-        let current_vis = true;
+      AFRAME.registerComponent('model-switcher', {
+        schema: {
+          // List of model URLs to cycle through.
+          models: {
+            type: 'array',
+            default: [
+              "https://rssathe08311.github.io/tunnel-vision/workshop3/models/water/scene.gltf",
+              "https://rssathe08311.github.io/tunnel-vision/workshop3/models/subway/scene.gltf",
+              "https://rssathe08311.github.io/tunnel-vision/workshop3/models/plants/scene.gltf"
+            ]
+          },
+          currentIndex: { type: 'number', default: 0 }
+        },
+        init: function() {
+          const el = this.el;
+          // Load the initial model.
+          el.setAttribute("gltf-model", this.data.models[this.data.currentIndex]);
 
-        AFRAME.registerComponent('clicker', {
-            init: function() {
-                this.el.addEventListener('click', e => {
-                    const model_entity = document.querySelector('a-entity');
-                    current_vis = !current_vis;
-                    model_entity.setAttribute("visible", current_vis);
-                    alert('Model clicked!');
-                });
-            }
-        });
+          // Listen for click events on this entity.
+          el.addEventListener("click", () => {
+            // Hide the current model.
+            el.setAttribute("visible", false);
+
+            // Move to the next model.
+            this.data.currentIndex = (this.data.currentIndex + 1) % this.data.models.length;
+
+            // Update the gltf-model attribute with the new model URL.
+            el.setAttribute("gltf-model", this.data.models[this.data.currentIndex]);
+
+            // Once the new model is loaded, make it visible.
+            el.addEventListener("model-loaded", () => {
+              el.setAttribute("visible", true);
+            }, { once: true });
+          });
+        }
+      });
     </script>
-    <title>Simple AR Scene</title>
-</head>
-
-<body style="margin: 0; overflow: hidden;">
-    <a-scene embedded arjs vr-mode-ui="enabled: false" renderer="antialias: true; alpha: true" clicker>
-        <a-marker preset="hiro">
-            <!-- water model -->
-            <a-entity gltf-model="https://rssathe08311.github.io/tunnel-vision/workshop3/models/water/scene.gltf"
-                visible="true" scale="0.003 0.003 0.003" position="0 0 0" rotation="0 0 0"></a-entity>
-            <!-- subway model -->
-            <!-- <a-entity gltf-model="https://rssathe08311.github.io/tunnel-vision/workshop3/models/subway/scene.gltf"
-                visible="true" scale="0.001 0.001 0.001" position="0 0 0" rotation="0 0 0"></a-entity> -->
-
-            <!-- plant model -->
-            <!-- <a-entity gltf-model="https://rssathe08311.github.io/tunnel-vision/workshop3/models/plants/scene.gltf"
-                visible="true" scale="0.001 0.001 0.001" position="0 0 0" rotation="0 0 0"></a-entity> -->
-
-        </a-marker>
-        <a-entity camera></a-entity>
+  </head>
+  <body style="margin: 0; overflow: hidden;">
+    <a-scene embedded arjs>
+      <a-marker preset="hiro">
+        <!-- Attach the model-switcher component to this entity -->
+        <a-entity model-switcher></a-entity>
+      </a-marker>
+      <a-entity camera></a-entity>
     </a-scene>
-</body>
-
+  </body>
 </html>
