@@ -9,7 +9,6 @@
     <script>
       AFRAME.registerComponent('model-switcher', {
         schema: {
-          // List of model URLs to cycle through.
           models: {
             type: 'array',
             default: [
@@ -21,33 +20,37 @@
           scales: {
             type: 'array',
             default: [
-              "0.003 0.003 0.003", // Scale for first model
-              "0.005 0.005 0.005", // Scale for second model
-              "0.002 0.002 0.002"  // Scale for third model
+              "0.003 0.003 0.003",
+              "0.005 0.005 0.005",
+              "0.002 0.002 0.002"
             ]
           },
           currentIndex: { type: 'number', default: 0 }
         },
         init: function() {
-          const el = this.el;
-          // Load the initial model.
-          el.setAttribute("gltf-model", this.data.models[this.data.currentIndex] );
-          el.setAttribute("scale", this.data.scales[this.data.currentIndex]);
+          const sceneEl = this.el;
+          const modelEntity = document.createElement("a-entity");
+          modelEntity.setAttribute("gltf-model", this.data.models[this.data.currentIndex]);
+          modelEntity.setAttribute("scale", this.data.scales[this.data.currentIndex]);
+          modelEntity.setAttribute("position", "0 0 0");
+          modelEntity.setAttribute("visible", "true");
 
-          // Listen for click events on this entity.
-          el.addEventListener("click", () => {
-            // Hide the current model.
-            el.setAttribute("visible", false);
+          // Append the model entity to the scene
+          sceneEl.appendChild(modelEntity);
 
-            // Move to the next model.
+          // Click listener on the entire scene
+          sceneEl.addEventListener("click", () => {
+            // Hide current model
+            modelEntity.setAttribute("visible", "false");
+
+            // Switch to next model
             this.data.currentIndex = (this.data.currentIndex + 1) % this.data.models.length;
+            modelEntity.setAttribute("gltf-model", this.data.models[this.data.currentIndex]);
+            modelEntity.setAttribute("scale", this.data.scales[this.data.currentIndex]);
 
-            // Update the gltf-model attribute with the new model URL.
-            el.setAttribute("gltf-model", this.data.models[this.data.currentIndex]);
-
-            // Once the new model is loaded, make it visible.
-            el.addEventListener("model-loaded", () => {
-              el.setAttribute("visible", true);
+            // Ensure model is visible when loaded
+            modelEntity.addEventListener("model-loaded", () => {
+              modelEntity.setAttribute("visible", "true");
             }, { once: true });
           });
         }
@@ -55,12 +58,9 @@
     </script>
   </head>
   <body style="margin: 0; overflow: hidden;">
-    <p>Click to Experience</p>
-    <a-scene embedded arjs>
-      <a-marker preset="hiro">
-        <!-- Attach the model-switcher component to this entity -->
-        <a-entity model-switcher></a-entity>
-      </a-marker>
+    <p>Click anywhere to switch models</p>
+    <a-scene embedded arjs model-switcher>
+      <a-marker preset="hiro"></a-marker>
       <a-entity camera></a-entity>
     </a-scene>
   </body>
