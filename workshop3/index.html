@@ -20,9 +20,9 @@
           scales: {
             type: 'array',
             default: [
-              "0.003 0.003 0.003",
-              "0.005 0.005 0.005",
-              "0.002 0.002 0.002"
+              "0.001 0.001 0.001",
+              "0.001 0.001 0.001",
+              "0.001 0.001 0.001"
             ]
           },
           currentIndex: { type: 'number', default: 0 }
@@ -60,7 +60,9 @@
   <body style="margin: 0; overflow: hidden;">
     <p>Click anywhere to switch models</p>
     <a-scene embedded arjs model-switcher>
-      <a-marker preset="hiro"></a-marker>
+      <a-marker preset="hiro">
+        
+      </a-marker>
       <a-entity camera></a-entity>
     </a-scene>
   </body>
