@@ -28,6 +28,7 @@
           currentIndex: { type: 'number', default: 0 }
         },
         init: function() {
+          const sceneEl = document.querySelector("a-scene"); // Scene for click detection
           const markerEl = this.el;
           const modelEntity = document.createElement("a-entity");
 
@@ -38,11 +39,12 @@
           modelEntity.setAttribute("rotation", "0 0 0");
           modelEntity.setAttribute("visible", "true");
 
-          // Append model to the marker (not the scene)
+          // Append model to the marker
           markerEl.appendChild(modelEntity);
 
-          // Click listener on the marker
-          markerEl.addEventListener("click", () => {
+          // Click listener on the whole scene
+          sceneEl.addEventListener("click", () => {
+            // Hide current model
             modelEntity.setAttribute("visible", "false");
 
             // Switch to the next model
@@ -60,7 +62,7 @@
     </script>
   </head>
   <body style="margin: 0; overflow: hidden;">
-    <p>Click on the marker to switch models</p>
+    <p>Click anywhere to switch models</p>
     <a-scene embedded arjs>
       <a-marker preset="hiro" model-switcher>
         <!-- Model will be dynamically added here -->
