@@ -20,30 +20,32 @@
           scales: {
             type: 'array',
             default: [
-              "0.001 0.001 0.001",
-              "0.001 0.001 0.001",
-              "0.001 0.001 0.001"
+              "0.005 0.005 0.005",
+              "0.005 0.005 0.005",
+              "0.005 0.005 0.005"
             ]
           },
           currentIndex: { type: 'number', default: 0 }
         },
         init: function() {
-          const sceneEl = this.el;
+          const markerEl = this.el;
           const modelEntity = document.createElement("a-entity");
+
+          // Set initial model attributes
           modelEntity.setAttribute("gltf-model", this.data.models[this.data.currentIndex]);
           modelEntity.setAttribute("scale", this.data.scales[this.data.currentIndex]);
           modelEntity.setAttribute("position", "0 0 0");
+          modelEntity.setAttribute("rotation", "0 0 0");
           modelEntity.setAttribute("visible", "true");
 
-          // Append the model entity to the scene
-          sceneEl.appendChild(modelEntity);
+          // Append model to the marker (not the scene)
+          markerEl.appendChild(modelEntity);
 
-          // Click listener on the entire scene
-          sceneEl.addEventListener("click", () => {
-            // Hide current model
+          // Click listener on the marker
+          markerEl.addEventListener("click", () => {
             modelEntity.setAttribute("visible", "false");
 
-            // Switch to next model
+            // Switch to the next model
             this.data.currentIndex = (this.data.currentIndex + 1) % this.data.models.length;
             modelEntity.setAttribute("gltf-model", this.data.models[this.data.currentIndex]);
             modelEntity.setAttribute("scale", this.data.scales[this.data.currentIndex]);
@@ -58,10 +60,10 @@
     </script>
   </head>
   <body style="margin: 0; overflow: hidden;">
-    <p>Click anywhere to switch models</p>
-    <a-scene embedded arjs model-switcher>
-      <a-marker preset="hiro">
-        
+    <p>Click on the marker to switch models</p>
+    <a-scene embedded arjs>
+      <a-marker preset="hiro" model-switcher>
+        <!-- Model will be dynamically added here -->
       </a-marker>
       <a-entity camera></a-entity>
     </a-scene>
