@@ -20,46 +20,72 @@
           scales: {
             type: 'array',
             default: [
-              "0.005 0.005 0.005",
-              "0.001 0.001 0.001",
-              "0.001 0.001 0.001"
+              "0.005 0.005 0.005", // Water
+              "0.001 0.001 0.001", // Subway
+              "0.001 0.001 0.001"  // Plants
             ]
           },
           currentIndex: { type: 'number', default: 0 }
         },
-        init: function() {
-          const sceneEl = document.querySelector("a-scene"); // Scene for click detection
+    
+        init: function () {
+          const sceneEl = document.querySelector("a-scene");
           const markerEl = this.el;
           const modelEntity = document.createElement("a-entity");
-
-          // Set initial model attributes
+    
+          // Set initial model
           modelEntity.setAttribute("gltf-model", this.data.models[this.data.currentIndex]);
-          modelEntity.setAttribute("scale", this.data.scales[this.data.currentIndex]);
+          modelEntity.setAttribute("scale", "0.001 0.001 0.001"); // Start small
           modelEntity.setAttribute("position", "0 0 0");
           modelEntity.setAttribute("rotation", "0 0 0");
-          modelEntity.setAttribute("visible", "true");
-
-          // Append model to the marker
+          modelEntity.setAttribute("visible", "false");
+    
           markerEl.appendChild(modelEntity);
-
-          // Click listener on the whole scene
+    
+          // Initial load animation if water
+          modelEntity.addEventListener("model-loaded", () => {
+            if (this.data.currentIndex === 0) {
+              modelEntity.setAttribute("animation", {
+                property: "scale",
+                to: this.data.scales[0],
+                dur: 3000,
+                easing: "easeOutElastic"
+              });
+            } else {
+              modelEntity.setAttribute("scale", this.data.scales[this.data.currentIndex]);
+            }
+            modelEntity.setAttribute("visible", "true");
+          });
+    
+          // On click, switch model
           sceneEl.addEventListener("click", () => {
-            // Hide current model
             modelEntity.setAttribute("visible", "false");
-
-            // Switch to the next model
+    
+            // Advance to next model
             this.data.currentIndex = (this.data.currentIndex + 1) % this.data.models.length;
             modelEntity.setAttribute("gltf-model", this.data.models[this.data.currentIndex]);
-            modelEntity.setAttribute("scale", this.data.scales[this.data.currentIndex]);
-
-            // Ensure model is visible when loaded
+    
+            // Wait for model to load before making changes
             modelEntity.addEventListener("model-loaded", () => {
+              if (this.data.currentIndex === 0) {
+                modelEntity.setAttribute("scale", "0.001 0.001 0.001");
+                modelEntity.setAttribute("animation", {
+                  property: "scale",
+                  to: this.data.scales[0],
+                  dur: 3000,
+                  easing: "easeOutElastic"
+                });
+              } else {
+                modelEntity.removeAttribute("animation");
+                modelEntity.setAttribute("scale", this.data.scales[this.data.currentIndex]);
+              }
               modelEntity.setAttribute("visible", "true");
             }, { once: true });
           });
         }
       });
     </script>
+    
   </head>
   <body style="margin: 0; overflow: hidden;">
     <p>Click anywhere to switch models</p>
