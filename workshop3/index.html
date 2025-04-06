@@ -134,19 +134,28 @@
   <body style="margin: 0; overflow: hidden;">
     <p>Click anywhere to switch models</p>
     <!--Tunnel Overlay Image-->
-    <img src="media/tunnel.png" 
-     style="
-       position: absolute;
-       top: 0;
-       left: 0;
-       height: 100vw; /* vw = viewport width, works after rotation */
-       width: 100vh;  /* vh = viewport height */
-       pointer-events: none;
-       z-index: 10;
-       transform: rotate(90deg);
-       transform-origin: center;
-       object-fit: cover;
-     ">
+    <div style="
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      pointer-events: none;
+      z-index: 10;
+      overflow: hidden;
+    ">
+      <img src="media/tunnel.png"
+          style="
+            height: 150vw;
+            width: auto;
+            transform: rotate(90deg);
+            object-fit: cover;
+          ">
+    </div>
+
 
 
 
