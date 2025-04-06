@@ -81,7 +81,7 @@
 
               modelEntity.setAttribute("animation__grow", {
                 property: "position",
-                from: "0 -0.5 -0.2",
+                from: "0 -1 -0.2",
                 to: "0 0.1 -0.2",
                 dur: 3000,
                 easing: "easeOutCubic"
@@ -100,7 +100,9 @@
                 from: "-85 0 0",
                 to: "-85 15 0",
                 dur: 3000,
-                easing: "easeInOutSine"
+                easing: "easeInOutSine",
+                loop: true,
+                dir: "alternate"
               });
             } else {
               modelEntity.removeAttribute("animation");
