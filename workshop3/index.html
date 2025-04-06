@@ -49,7 +49,7 @@
                 property: "scale",
                 from: "0 0 0",
                 to: this.data.scales[0],
-                dur: 10000,
+                dur: 3000,
                 easing: "easeOutCubic"
               });
             } else {
@@ -69,12 +69,13 @@
             // Wait for model to load before making changes
             modelEntity.addEventListener("model-loaded", () => {
               if (this.data.currentIndex === 0) {
-                modelEntity.setAttribute("scale", "0.001 0.001 0.001");
+                modelEntity.setAttribute("scale", "0.001 0.001 0.001");s
                 modelEntity.setAttribute("animation", {
                   property: "scale",
+                  from: "0 0 0",
                   to: this.data.scales[0],
-                  dur: 3000,
-                  easing: "easeOutElastic"
+                  dur: 5000,
+                  easing: "easeOutCubic"
                 });
               } else {
                 modelEntity.removeAttribute("animation");
