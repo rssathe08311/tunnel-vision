@@ -36,8 +36,8 @@
           // Set initial model
           modelEntity.setAttribute("gltf-model", this.data.models[this.data.currentIndex]);
           modelEntity.setAttribute("scale", "0.001 0.001 0.001"); // Start small
-          modelEntity.setAttribute("position", "0 0 0");
-          modelEntity.setAttribute("rotation", "0 0 0");
+          modelEntity.setAttribute("position", "0 0.1 -0.2"); // Move away from marker
+          modelEntity.setAttribute("rotation", "-30 45 0"); // Tilt at an angle
           modelEntity.setAttribute("visible", "false");
     
           markerEl.appendChild(modelEntity);
