@@ -55,9 +55,24 @@
                 dur: 5000,
                 easing: "easeOutCubic"
               });
+
+              modelEntity.setAttribute("position", "0 0.1 -0.2");
+            } else if(this.data.currentIndex === 1){
+              modelEntity.removeAttribute("animation");
+              modelEntity.setAttribute("scale", this.data.scales[this.data.currentIndex]);
+              modelEntity.setAttribute("position", "-0.5 0.1 -0.2"); // Start left
+              modelEntity.setAttribute("animation", {
+                property: "position",
+                from: "-0.5 0.1 -0.2",
+                to: "0.5 0.1 -0.2",
+                dur: 5000,
+                easing: "linear",
+                loop: false
+              });
             } else {
               modelEntity.removeAttribute("animation");
               modelEntity.setAttribute("scale", this.data.scales[this.data.currentIndex]);
+              modelEntity.setAttribute("position", "0 0.1 -0.2");
             }
 
             modelEntity.setAttribute("visible", "true");
