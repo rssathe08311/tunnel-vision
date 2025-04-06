@@ -37,7 +37,7 @@
           const rotations = [
             "-65 0 0", // Water
             "-75 0 0",   // Subway
-            "-75 0 0"    // Plants
+            "-85 0 0"    // Plants
           ];
 
           markerEl.appendChild(modelEntity);
@@ -69,10 +69,38 @@
               modelEntity.setAttribute("animation", {
                 property: "position",
                 from: "-2 0.1 -0.2", // start way off to the left
-                to: "2.5 0.1 -0.2",
+                to: "3.5 0.1 -0.2",
                 dur: 3000,
                 easing: "linear",
                 loop: false
+              });
+            } else if (this.data.currentIndex === 2) {
+              modelEntity.removeAttribute("animation");
+              modelEntity.setAttribute("scale", this.data.scales[this.data.currentIndex]);
+              modelEntity.setAttribute("position", "0 -0.5 -0.2"); // Start below
+
+              modelEntity.setAttribute("animation__grow", {
+                property: "position",
+                from: "0 -0.5 -0.2",
+                to: "0 0.1 -0.2",
+                dur: 3000,
+                easing: "easeOutCubic"
+              });
+
+              modelEntity.setAttribute("animation__scale", {
+                property: "scale",
+                from: "0.0001 0.0001 0.0001",
+                to: this.data.scales[this.data.currentIndex],
+                dur: 3000,
+                easing: "easeOutCubic"
+              });
+
+              modelEntity.setAttribute("animation__rotate", {
+                property: "rotation",
+                from: "-85 0 0",
+                to: "-85 15 0",
+                dur: 3000,
+                easing: "easeInOutSine"
               });
             } else {
               modelEntity.removeAttribute("animation");
