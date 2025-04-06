@@ -47,9 +47,10 @@
             if (this.data.currentIndex === 0) {
               modelEntity.setAttribute("animation", {
                 property: "scale",
+                from: "0 0 0",
                 to: this.data.scales[0],
-                dur: 3000,
-                easing: "easeOutElastic"
+                dur: 5000,
+                easing: "easeOutCubic"
               });
             } else {
               modelEntity.setAttribute("scale", this.data.scales[this.data.currentIndex]);
