@@ -81,8 +81,8 @@
 
               modelEntity.setAttribute("animation__grow", {
                 property: "position",
-                from: "0 -1.5 -0.2",
-                to: "0 -1 -0.2",
+                from: "0 -2 -0.2",
+                to: "0 -2 -0.2",
                 dur: 3000,
                 easing: "easeOutCubic"
               });
@@ -133,6 +133,16 @@
   </head>
   <body style="margin: 0; overflow: hidden;">
     <p>Click anywhere to switch models</p>
+    <img src="media/temp-tunnel.png" 
+     style="
+       position: absolute;
+       top: 0;
+       left: 0;
+       width: 100%;
+       height: 100%;
+       pointer-events: none;
+       z-index: 10;
+     ">
     <a-scene embedded arjs>
       <a-entity id="statusText" position="0 2 -3" text="value: Loading...; align: center; color: yellow;"></a-entity>
       <a-marker preset="hiro" model-switcher>
