@@ -35,7 +35,7 @@
           const statusText = document.querySelector('#statusText');
 
           const rotations = [
-            "65 0 0", // Water
+            "-65 0 0", // Water
             "-75 0 0",   // Subway
             "-85 0 0"    // Plants
           ];
@@ -61,15 +61,15 @@
                 easing: "easeOutCubic"
               });
 
-              modelEntity.setAttribute("position", "0 -0.2 -0.2");
+              modelEntity.setAttribute("position", "0 -0.8 -0.2");
             } else if(this.data.currentIndex === 1){
               modelEntity.removeAttribute("animation");
               modelEntity.setAttribute("scale", this.data.scales[this.data.currentIndex]);
-              modelEntity.setAttribute("position", "-0.5 0.3 -0.2"); // Start left
+              modelEntity.setAttribute("position", "-0.5 -0.3 -0.2"); // Start left
               modelEntity.setAttribute("animation", {
                 property: "position",
-                from: "-2 0.1 -0.2", // start way off to the left
-                to: "3.5 0.1 -0.2",
+                from: "-2 -0.3 -0.2",
+                to: "3.5 -0.3 -0.2",
                 dur: 3000,
                 easing: "linear",
                 loop: false
@@ -81,8 +81,8 @@
 
               modelEntity.setAttribute("animation__grow", {
                 property: "position",
-                from: "0 -2 -0.2",
-                to: "0 -2 -0.2",
+                from: "0 -2.5 -0.2", 
+                to: "0 -1.8 -0.2",  
                 dur: 3000,
                 easing: "easeOutCubic"
               });
