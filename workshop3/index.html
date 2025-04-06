@@ -32,57 +32,49 @@
           const sceneEl = document.querySelector("a-scene");
           const markerEl = this.el;
           const modelEntity = document.createElement("a-entity");
-    
-          // Set initial model
-          modelEntity.setAttribute("gltf-model", this.data.models[this.data.currentIndex]);
-          modelEntity.setAttribute("scale", "0.001 0.001 0.001"); // Start small
-          modelEntity.setAttribute("position", "0 0.1 -0.2"); // Move away from marker
-          modelEntity.setAttribute("rotation", "-75 45 0"); // Tilt at an angle
-          modelEntity.setAttribute("visible", "false");
-    
+
+          const rotations = [
+            "-65 0 0", // Water
+            "-75 0 0",   // Subway
+            "-75 0 0"    // Plants
+          ];
+
           markerEl.appendChild(modelEntity);
-    
-          // Initial load animation if water
+
+          // Main model-loaded listener
           modelEntity.addEventListener("model-loaded", () => {
+            // Apply rotation based on currentIndex
+            modelEntity.setAttribute("rotation", rotations[this.data.currentIndex]);
+
             if (this.data.currentIndex === 0) {
+              modelEntity.setAttribute("scale", "0.001 0.001 0.001");
               modelEntity.setAttribute("animation", {
                 property: "scale",
                 from: "0 0 0",
                 to: this.data.scales[0],
-                dur: 3000,
+                dur: 5000,
                 easing: "easeOutCubic"
               });
             } else {
+              modelEntity.removeAttribute("animation");
               modelEntity.setAttribute("scale", this.data.scales[this.data.currentIndex]);
             }
+
             modelEntity.setAttribute("visible", "true");
           });
-    
+
+          // Initial model setup
+          modelEntity.setAttribute("gltf-model", this.data.models[this.data.currentIndex]);
+
           // On click, switch model
           sceneEl.addEventListener("click", () => {
             modelEntity.setAttribute("visible", "false");
-    
+
             // Advance to next model
             this.data.currentIndex = (this.data.currentIndex + 1) % this.data.models.length;
+
+            // Load new model (this will trigger model-loaded)
             modelEntity.setAttribute("gltf-model", this.data.models[this.data.currentIndex]);
-    
-            // Wait for model to load before making changes
-            modelEntity.addEventListener("model-loaded", () => {
-              if (this.data.currentIndex === 0) {
-                modelEntity.setAttribute("scale", "0.001 0.001 0.001");s
-                modelEntity.setAttribute("animation", {
-                  property: "scale",
-                  from: "0 0 0",
-                  to: this.data.scales[0],
-                  dur: 5000,
-                  easing: "easeOutCubic"
-                });
-              } else {
-                modelEntity.removeAttribute("animation");
-                modelEntity.setAttribute("scale", this.data.scales[this.data.currentIndex]);
-              }
-              modelEntity.setAttribute("visible", "true");
-            }, { once: true });
           });
         }
       });
