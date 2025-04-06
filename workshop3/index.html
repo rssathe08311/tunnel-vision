@@ -32,6 +32,7 @@
           const sceneEl = document.querySelector("a-scene");
           const markerEl = this.el;
           const modelEntity = document.createElement("a-entity");
+          const statusText = document.querySelector('#statusText');
 
           const rotations = [
             "-65 0 0", // Water
@@ -43,6 +44,10 @@
 
           // Main model-loaded listener
           modelEntity.addEventListener("model-loaded", () => {
+
+            const modelNames = ["Water model ready", "Subway model ready", "Plants model ready"];
+            statusText.setAttribute("text", "value", modelNames[this.data.currentIndex]);
+
             // Apply rotation based on currentIndex
             modelEntity.setAttribute("rotation", rotations[this.data.currentIndex]);
 
@@ -60,11 +65,11 @@
             } else if(this.data.currentIndex === 1){
               modelEntity.removeAttribute("animation");
               modelEntity.setAttribute("scale", this.data.scales[this.data.currentIndex]);
-              modelEntity.setAttribute("position", "-0.5 0.1 -0.2"); // Start left
+              modelEntity.setAttribute("position", "-0.5 0.3 -0.2"); // Start left
               modelEntity.setAttribute("animation", {
                 property: "position",
                 from: "-2 0.1 -0.2", // start way off to the left
-                to: "2 0.1 -0.2",
+                to: "2.5 0.1 -0.2",
                 dur: 3000,
                 easing: "linear",
                 loop: false
@@ -99,6 +104,7 @@
   <body style="margin: 0; overflow: hidden;">
     <p>Click anywhere to switch models</p>
     <a-scene embedded arjs>
+      <a-entity id="statusText" position="0 2 -3" text="value: Loading...; align: center; color: yellow;"></a-entity>
       <a-marker preset="hiro" model-switcher>
         <!-- Model will be dynamically added here -->
       </a-marker>
