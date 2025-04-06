@@ -61,7 +61,7 @@
                 easing: "easeOutCubic"
               });
 
-              modelEntity.setAttribute("position", "0 0.1 -0.2");
+              modelEntity.setAttribute("position", "0 -0.2 -0.2");
             } else if(this.data.currentIndex === 1){
               modelEntity.removeAttribute("animation");
               modelEntity.setAttribute("scale", this.data.scales[this.data.currentIndex]);
@@ -77,7 +77,7 @@
             } else if (this.data.currentIndex === 2) {
               modelEntity.removeAttribute("animation");
               modelEntity.setAttribute("scale", this.data.scales[this.data.currentIndex]);
-              modelEntity.setAttribute("position", "0 -0.5 -0.2"); // Start below
+              modelEntity.setAttribute("position", "0 -2 -0.2"); // Start below
 
               modelEntity.setAttribute("animation__grow", {
                 property: "position",
@@ -143,7 +143,10 @@
        height: 100%;
        pointer-events: none;
        z-index: 10;
+       transform: rotate(90deg);
+       transform-origin: center;
      ">
+
 
     <!--<audio id="waterSound" src="water-sound.mp3"></audio>
     <audio id="subwaySound" src="subway-sound.mp3"></audio>
