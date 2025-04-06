@@ -133,7 +133,8 @@
   </head>
   <body style="margin: 0; overflow: hidden;">
     <p>Click anywhere to switch models</p>
-    <img src="media/temp-tunnel.png" 
+    <!--Tunnel Overlay Image-->
+    <img src="media/tunnel.png" 
      style="
        position: absolute;
        top: 0;
@@ -143,10 +144,14 @@
        pointer-events: none;
        z-index: 10;
      ">
+
+    <!--<audio id="waterSound" src="water-sound.mp3"></audio>
+    <audio id="subwaySound" src="subway-sound.mp3"></audio>
+    <audio id="plantsSound" src="plants-sound.mp3"></audio>-->
+
     <a-scene embedded arjs>
       <a-entity id="statusText" position="0 2 -3" text="value: Loading...; align: center; color: yellow;"></a-entity>
       <a-marker preset="hiro" model-switcher>
-        <!-- Model will be dynamically added here -->
       </a-marker>
       <a-entity camera></a-entity>
     </a-scene>
