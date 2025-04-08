@@ -52,16 +52,18 @@
             modelEntity.setAttribute("rotation", rotations[this.data.currentIndex]);
 
             if (this.data.currentIndex === 0) {
+              const bigScale = "0.05 0.05 0.05";
+
               modelEntity.setAttribute("scale", "0.001 0.001 0.001");
               modelEntity.setAttribute("animation", {
                 property: "scale",
                 from: "0 0 0",
-                to: this.data.scales[0],
+                to: bigScale,
                 dur: 5000,
                 easing: "easeOutCubic"
               });
 
-              modelEntity.setAttribute("position", "0 -0.8 -0.2");
+              modelEntity.setAttribute("position", "0 -1 -2");
             } else if(this.data.currentIndex === 1){
               modelEntity.removeAttribute("animation");
               modelEntity.setAttribute("scale", this.data.scales[this.data.currentIndex]);
@@ -77,11 +79,11 @@
             } else if (this.data.currentIndex === 2) {
               modelEntity.removeAttribute("animation");
               modelEntity.setAttribute("scale", this.data.scales[this.data.currentIndex]);
-              modelEntity.setAttribute("position", "0 -2 -0.2"); // Start below
+              modelEntity.setAttribute("position", "0 -3 -0.2"); // Start below
 
               modelEntity.setAttribute("animation__grow", {
                 property: "position",
-                from: "0 -2.5 -0.2", 
+                from: "0 -3.5 -0.2", 
                 to: "0 -1.8 -0.2",  
                 dur: 3000,
                 easing: "easeOutCubic"
