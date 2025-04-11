@@ -27,68 +27,40 @@
           },
           currentIndex: { type: 'number', default: 0 }
         },
-    
+
         init: function () {
           const sceneEl = document.querySelector("a-scene");
           const markerEl = this.el;
-          const modelEntity = document.createElement("a-entity");
           const statusText = document.querySelector('#statusText');
 
+          const modelNames = ["Water model ready", "Subway model ready", "Plants model ready"];
           const rotations = [
             "-65 0 0", // Water
-            "-75 0 0",   // Subway
-            "-85 0 0"    // Plants
+            "-75 0 0", // Subway
+            "-85 0 0"  // Plants
           ];
 
-          markerEl.appendChild(modelEntity);
+          const loadModel = () => {
+            // Clear previous models
+            while (markerEl.firstChild) {
+              markerEl.removeChild(markerEl.firstChild);
+            }
 
-          // Main model-loaded listener
-          modelEntity.addEventListener("model-loaded", () => {
+            const index = this.data.currentIndex;
+            statusText.setAttribute("text", "value", modelNames[index]);
 
-            const modelNames = ["Water model ready", "Subway model ready", "Plants model ready"];
-            statusText.setAttribute("text", "value", modelNames[this.data.currentIndex]);
-
-            // Apply rotation based on currentIndex
-            modelEntity.setAttribute("rotation", rotations[this.data.currentIndex]);
-
-            if (this.data.currentIndex === 0) {
-              const bigScale = "0.05 0.05 0.05";
-
-              modelEntity.setAttribute("scale", "0.001 0.001 0.001");
-              modelEntity.setAttribute("animation", {
-                property: "scale",
-                from: "0 0 0",
-                to: bigScale,
-                dur: 5000,
-                easing: "easeOutCubic"
-              });
-
-              modelEntity.setAttribute("position", "0 -1 -2");
-            } else if(this.data.currentIndex === 1){
-              modelEntity.removeAttribute("animation");
-              modelEntity.setAttribute("scale", this.data.scales[this.data.currentIndex]);
-              modelEntity.setAttribute("position", "-0.5 -0.3 -0.2"); // Start left
-              modelEntity.setAttribute("animation", {
-                property: "position",
-                from: "-2 -0.3 -0.2",
-                to: "3.5 -0.3 -0.2",
-                dur: 3000,
-                easing: "linear",
-                loop: false
-              });
-            } else if (this.data.currentIndex === 2) {
-              // Number of plants you want
+            if (index === 2) {
+              // Multiple plants setup
               const plantCount = 5;
-
               for (let i = 0; i < plantCount; i++) {
                 const plantEntity = document.createElement("a-entity");
 
-                // Random slight offsets for natural placement
-                const offsetX = (Math.random() - 0.5) * 1.5; // random between -0.75 and +0.75
-                const offsetZ = (Math.random() - 0.5) * 1.5; // random between -0.75 and +0.75
-                const scaleMultiplier = 0.8 + Math.random() * 0.4; // random scale between 0.8 and 1.2
+                const offsetX = (Math.random() - 0.5) * 1.5;
+                const offsetZ = (Math.random() - 0.5) * 1.5;
+                const scaleMultiplier = 0.8 + Math.random() * 0.4;
 
-                plantEntity.setAttribute("gltf-model", this.data.models[this.data.currentIndex]);
+                plantEntity.setAttribute("gltf-model", this.data.models[index]);
+                plantEntity.setAttribute("rotation", rotations[index]);
                 plantEntity.setAttribute("scale", `${scaleMultiplier * 0.001} ${scaleMultiplier * 0.001} ${scaleMultiplier * 0.001}`);
                 plantEntity.setAttribute("position", `${offsetX} -5 ${offsetZ}`);
 
@@ -98,7 +70,7 @@
                   to: `${scaleMultiplier * 0.001} ${scaleMultiplier * 0.001} ${scaleMultiplier * 0.001}`,
                   dur: 3000,
                   easing: "easeOutCubic",
-                  delay: i * 300 // stagger the animation for natural effect
+                  delay: i * 300
                 });
 
                 plantEntity.setAttribute("animation__rotate", {
@@ -112,42 +84,62 @@
                   startEvents: "grow-complete"
                 });
 
-                // Start rotate after grow finishes
                 plantEntity.addEventListener("animation__scale-complete", function () {
                   plantEntity.emit("grow-complete");
                 });
 
                 plantEntity.setAttribute("visible", "true");
-
                 markerEl.appendChild(plantEntity);
               }
             } else {
-              modelEntity.removeAttribute("animation");
-              modelEntity.setAttribute("scale", this.data.scales[this.data.currentIndex]);
-              modelEntity.setAttribute("position", "0 0.1 -0.2");
+              // Single model setup for Water and Subway
+              const modelEntity = document.createElement("a-entity");
+              modelEntity.setAttribute("gltf-model", this.data.models[index]);
+              modelEntity.setAttribute("rotation", rotations[index]);
+              modelEntity.setAttribute("scale", this.data.scales[index]);
+              modelEntity.setAttribute("visible", "true");
+
+              if (index === 0) {
+                modelEntity.setAttribute("scale", "0.001 0.001 0.001");
+                modelEntity.setAttribute("animation", {
+                  property: "scale",
+                  from: "0 0 0",
+                  to: "0.05 0.05 0.05",
+                  dur: 5000,
+                  easing: "easeOutCubic"
+                });
+                modelEntity.setAttribute("position", "0 -1 -2");
+              }
+
+              if (index === 1) {
+                modelEntity.setAttribute("position", "-0.5 -0.3 -0.2");
+                modelEntity.setAttribute("animation", {
+                  property: "position",
+                  from: "-2 -0.3 -0.2",
+                  to: "3.5 -0.3 -0.2",
+                  dur: 3000,
+                  easing: "linear",
+                  loop: false
+                });
+              }
+
+              markerEl.appendChild(modelEntity);
             }
+          };
 
-            modelEntity.setAttribute("visible", "true");
-          });
-
-          // Initial model setup
-          modelEntity.setAttribute("gltf-model", this.data.models[this.data.currentIndex]);
+          // Initial load
+          loadModel();
 
           // On click, switch model
           sceneEl.addEventListener("click", () => {
-            modelEntity.setAttribute("visible", "false");
-
-            // Advance to next model
             this.data.currentIndex = (this.data.currentIndex + 1) % this.data.models.length;
-
-            // Load new model (this will trigger model-loaded)
-            modelEntity.setAttribute("gltf-model", this.data.models[this.data.currentIndex]);
+            loadModel();
           });
         }
       });
     </script>
-    
   </head>
+
   <body style="margin: 0; overflow: hidden;">
     <p>Click anywhere to switch models</p>
     <!--Tunnel Overlay Image-->
@@ -165,20 +157,13 @@
       overflow: hidden;
     ">
       <img src="media/tunnel.png"
-          style="
-            height: 150vw;
-            width: auto;
-            transform: rotate(90deg);
-            object-fit: cover;
-          ">
+           style="
+             height: 150vw;
+             width: auto;
+             transform: rotate(90deg);
+             object-fit: cover;
+           ">
     </div>
-
-
-
-
-    <!--<audio id="waterSound" src="water-sound.mp3"></audio>
-    <audio id="subwaySound" src="subway-sound.mp3"></audio>
-    <audio id="plantsSound" src="plants-sound.mp3"></audio>-->
 
     <a-scene embedded arjs>
       <a-entity id="statusText" position="0 2 -3" text="value: Loading...; align: center; color: yellow;"></a-entity>

@@ -20,53 +20,169 @@
           scales: {
             type: 'array',
             default: [
-              "0.005 0.005 0.005",
-              "0.001 0.001 0.001",
-              "0.001 0.001 0.001"
+              "0.005 0.005 0.005", // Water
+              "0.001 0.001 0.001", // Subway
+              "0.001 0.001 0.001"  // Plants
             ]
           },
           currentIndex: { type: 'number', default: 0 }
         },
-        init: function() {
-          const sceneEl = document.querySelector("a-scene"); // Scene for click detection
+    
+        init: function () {
+          const sceneEl = document.querySelector("a-scene");
           const markerEl = this.el;
           const modelEntity = document.createElement("a-entity");
+          const statusText = document.querySelector('#statusText');
 
-          // Set initial model attributes
-          modelEntity.setAttribute("gltf-model", this.data.models[this.data.currentIndex]);
-          modelEntity.setAttribute("scale", this.data.scales[this.data.currentIndex]);
-          modelEntity.setAttribute("position", "0 0 0");
-          modelEntity.setAttribute("rotation", "0 0 0");
-          modelEntity.setAttribute("visible", "true");
+          const rotations = [
+            "-65 0 0", // Water
+            "-75 0 0",   // Subway
+            "-85 0 0"    // Plants
+          ];
 
-          // Append model to the marker
           markerEl.appendChild(modelEntity);
 
-          // Click listener on the whole scene
+          // Main model-loaded listener
+          modelEntity.addEventListener("model-loaded", () => {
+
+            const modelNames = ["Water model ready", "Subway model ready", "Plants model ready"];
+            statusText.setAttribute("text", "value", modelNames[this.data.currentIndex]);
+
+            // Apply rotation based on currentIndex
+            modelEntity.setAttribute("rotation", rotations[this.data.currentIndex]);
+
+            if (this.data.currentIndex === 0) {
+              const bigScale = "0.05 0.05 0.05";
+
+              modelEntity.setAttribute("scale", "0.001 0.001 0.001");
+              modelEntity.setAttribute("animation", {
+                property: "scale",
+                from: "0 0 0",
+                to: bigScale,
+                dur: 5000,
+                easing: "easeOutCubic"
+              });
+
+              modelEntity.setAttribute("position", "0 -1 -2");
+            } else if(this.data.currentIndex === 1){
+              modelEntity.removeAttribute("animation");
+              modelEntity.setAttribute("scale", this.data.scales[this.data.currentIndex]);
+              modelEntity.setAttribute("position", "-0.5 -0.3 -0.2"); // Start left
+              modelEntity.setAttribute("animation", {
+                property: "position",
+                from: "-2 -0.3 -0.2",
+                to: "3.5 -0.3 -0.2",
+                dur: 3000,
+                easing: "linear",
+                loop: false
+              });
+            } else if (this.data.currentIndex === 2) {
+              // Number of plants you want
+              const plantCount = 5;
+
+              for (let i = 0; i < plantCount; i++) {
+                const plantEntity = document.createElement("a-entity");
+
+                // Random slight offsets for natural placement
+                const offsetX = (Math.random() - 0.5) * 1.5; // random between -0.75 and +0.75
+                const offsetZ = (Math.random() - 0.5) * 1.5; // random between -0.75 and +0.75
+                const scaleMultiplier = 0.8 + Math.random() * 0.4; // random scale between 0.8 and 1.2
+
+                plantEntity.setAttribute("gltf-model", this.data.models[this.data.currentIndex]);
+                plantEntity.setAttribute("scale", `${scaleMultiplier * 0.001} ${scaleMultiplier * 0.001} ${scaleMultiplier * 0.001}`);
+                plantEntity.setAttribute("position", `${offsetX} -5 ${offsetZ}`);
+
+                plantEntity.setAttribute("animation__scale", {
+                  property: "scale",
+                  from: "0.0001 0.0001 0.0001",
+                  to: `${scaleMultiplier * 0.001} ${scaleMultiplier * 0.001} ${scaleMultiplier * 0.001}`,
+                  dur: 3000,
+                  easing: "easeOutCubic",
+                  delay: i * 300 // stagger the animation for natural effect
+                });
+
+                plantEntity.setAttribute("animation__rotate", {
+                  property: "rotation",
+                  from: "-85 0 0",
+                  to: "-85 15 0",
+                  dur: 3000,
+                  easing: "easeInOutSine",
+                  loop: true,
+                  dir: "alternate",
+                  startEvents: "grow-complete"
+                });
+
+                // Start rotate after grow finishes
+                plantEntity.addEventListener("animation__scale-complete", function () {
+                  plantEntity.emit("grow-complete");
+                });
+
+                plantEntity.setAttribute("visible", "true");
+
+                markerEl.appendChild(plantEntity);
+              }
+            } else {
+              modelEntity.removeAttribute("animation");
+              modelEntity.setAttribute("scale", this.data.scales[this.data.currentIndex]);
+              modelEntity.setAttribute("position", "0 0.1 -0.2");
+            }
+
+            modelEntity.setAttribute("visible", "true");
+          });
+
+          // Initial model setup
+          modelEntity.setAttribute("gltf-model", this.data.models[this.data.currentIndex]);
+
+          // On click, switch model
           sceneEl.addEventListener("click", () => {
-            // Hide current model
             modelEntity.setAttribute("visible", "false");
-            
 
-            // Switch to the next model
+            // Advance to next model
             this.data.currentIndex = (this.data.currentIndex + 1) % this.data.models.length;
-            modelEntity.setAttribute("gltf-model", this.data.models[this.data.currentIndex]);
-            modelEntity.setAttribute("scale", this.data.scales[this.data.currentIndex]);
 
-            // Ensure model is visible when loaded
-            modelEntity.addEventListener("model-loaded", () => {
-              modelEntity.setAttribute("visible", "true");
-            }, { once: true });
+            // Load new model (this will trigger model-loaded)
+            modelEntity.setAttribute("gltf-model", this.data.models[this.data.currentIndex]);
           });
         }
       });
     </script>
+    
   </head>
   <body style="margin: 0; overflow: hidden;">
     <p>Click anywhere to switch models</p>
+    <!--Tunnel Overlay Image-->
+    <div style="
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      pointer-events: none;
+      z-index: 10;
+      overflow: hidden;
+    ">
+      <img src="media/tunnel.png"
+          style="
+            height: 150vw;
+            width: auto;
+            transform: rotate(90deg);
+            object-fit: cover;
+          ">
+    </div>
+
+
+
+
+    <!--<audio id="waterSound" src="water-sound.mp3"></audio>
+    <audio id="subwaySound" src="subway-sound.mp3"></audio>
+    <audio id="plantsSound" src="plants-sound.mp3"></audio>-->
+
     <a-scene embedded arjs>
-      <a-marker preset="hiro" model-switcher>
-        <!-- Model will be dynamically added here -->
+      <a-entity id="statusText" position="0 2 -3" text="value: Loading...; align: center; color: yellow;"></a-entity>
+      <a-marker type="pattern" url="https://rssathe08311.github.io/tunnel-vision/markers/pattern-ar3.patt" model-switcher>
       </a-marker>
       <a-entity camera></a-entity>
     </a-scene>
