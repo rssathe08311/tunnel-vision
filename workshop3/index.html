@@ -77,35 +77,50 @@
                 loop: false
               });
             } else if (this.data.currentIndex === 2) {
-              modelEntity.removeAttribute("animation");
-              modelEntity.setAttribute("scale", this.data.scales[this.data.currentIndex]);
-              modelEntity.setAttribute("position", "0 -5 -0.2"); // Start below
+              // Number of plants you want
+              const plantCount = 5;
 
-              modelEntity.setAttribute("animation__scale", {
-                property: "scale",
-                from: "0.0001 0.0001 0.0001",
-                to: this.data.scales[this.data.currentIndex],
-                dur: 3000,
-                easing: "easeOutCubic"
-              });
+              for (let i = 0; i < plantCount; i++) {
+                const plantEntity = document.createElement("a-entity");
 
-              modelEntity.setAttribute("animation__rotate", {
-                property: "rotation",
-                from: "-85 0 0",
-                to: "-85 15 0",
-                dur: 3000,
-                easing: "easeInOutSine",
-                loop: true,
-                dir: "alternate",
-                startEvents: "grow-complete"
-              });
+                // Random slight offsets for natural placement
+                const offsetX = (Math.random() - 0.5) * 1.5; // random between -0.75 and +0.75
+                const offsetZ = (Math.random() - 0.5) * 1.5; // random between -0.75 and +0.75
+                const scaleMultiplier = 0.8 + Math.random() * 0.4; // random scale between 0.8 and 1.2
 
-              // Listen for grow complete, then start rotate animation
-              modelEntity.addEventListener("animation__scale-complete", function () {
-                modelEntity.emit("grow-complete");
-              });
+                plantEntity.setAttribute("gltf-model", this.data.models[this.data.currentIndex]);
+                plantEntity.setAttribute("scale", `${scaleMultiplier * 0.001} ${scaleMultiplier * 0.001} ${scaleMultiplier * 0.001}`);
+                plantEntity.setAttribute("position", `${offsetX} -5 ${offsetZ}`);
 
-              modelEntity.setAttribute("visible", "true");
+                plantEntity.setAttribute("animation__scale", {
+                  property: "scale",
+                  from: "0.0001 0.0001 0.0001",
+                  to: `${scaleMultiplier * 0.001} ${scaleMultiplier * 0.001} ${scaleMultiplier * 0.001}`,
+                  dur: 3000,
+                  easing: "easeOutCubic",
+                  delay: i * 300 // stagger the animation for natural effect
+                });
+
+                plantEntity.setAttribute("animation__rotate", {
+                  property: "rotation",
+                  from: "-85 0 0",
+                  to: "-85 15 0",
+                  dur: 3000,
+                  easing: "easeInOutSine",
+                  loop: true,
+                  dir: "alternate",
+                  startEvents: "grow-complete"
+                });
+
+                // Start rotate after grow finishes
+                plantEntity.addEventListener("animation__scale-complete", function () {
+                  plantEntity.emit("grow-complete");
+                });
+
+                plantEntity.setAttribute("visible", "true");
+
+                markerEl.appendChild(plantEntity);
+              }
             } else {
               modelEntity.removeAttribute("animation");
               modelEntity.setAttribute("scale", this.data.scales[this.data.currentIndex]);
