@@ -81,14 +81,6 @@
               modelEntity.setAttribute("scale", this.data.scales[this.data.currentIndex]);
               modelEntity.setAttribute("position", "0 -3 -0.2"); // Start below
 
-              modelEntity.setAttribute("animation__grow", {
-                property: "position",
-                from: "0 -3.5 -0.2", 
-                to: "0 -1.8 -0.2",  
-                dur: 3000,
-                easing: "easeOutCubic"
-              });
-
               modelEntity.setAttribute("animation__scale", {
                 property: "scale",
                 from: "0.0001 0.0001 0.0001",
