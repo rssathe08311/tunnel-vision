@@ -25,9 +25,17 @@
               "0.001 0.001 0.001"  // Plants
             ]
           },
-          currentIndex: { type: 'number', default: 0 }
+          currentIndex: { type: 'number', default: 0 },
+                sounds: { type: 'array', default: [
+            "media/water1.mp3",
+            "media/subway.mp3",
+            "media/plants.mp3"
+          ]}
         },
 
+
+        //add some start button functionality so that the user doesnt get confused
+        //add sound with the animations
         init: function () {
           const sceneEl = document.querySelector("a-scene");
           const markerEl = this.el;
@@ -39,6 +47,37 @@
             "-75 0 0", // Subway
             "-85 0 0"  // Plants
           ];
+          let currentAudio = null;
+
+          const preloadedAudio = this.data.sounds.map(url => {
+            const audio = new Audio(url);
+            audio.preload = 'auto';
+            return audio;
+          });
+
+          //const newAudio = preloadedAudio[index];
+
+
+          const playSound = (index) => {
+            if (typeof AudioContext !== "undefined") {
+              const context = new (window.AudioContext || window.webkitAudioContext)();
+              if (context.state === "suspended") {
+                context.resume();
+              }
+            }
+
+            if (currentAudio) {
+              currentAudio.pause();
+              currentAudio.currentTime = 0;
+            }
+
+            const newAudio = preloadedAudio[index];
+            newAudio.loop = true;
+            newAudio.play();
+            currentAudio = newAudio;
+          };
+
+
 
           const loadModel = () => {
             // Clear previous models
@@ -48,6 +87,7 @@
 
             const index = this.data.currentIndex;
             statusText.setAttribute("text", "value", modelNames[index]);
+            playSound(index);
 
             if (index === 2) {
               // Multiple plants setup
