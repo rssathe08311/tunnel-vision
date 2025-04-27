@@ -56,21 +56,24 @@
             return audio;
           });
 
+
           const startScreen = document.getElementById('startScreen');
           const startButton = document.getElementById('startButton');
-          markerEl.addEventListener('markerFound', () => {
-            startScreen.style.display = 'flex'; // Now show the start screen
-            startScreen.style.opacity = '1'; // Reset opacity
-          });
 
-
+          // --- Important: wait for Start button before listening for marker ---
           startButton.addEventListener('click', () => {
-            startScreen.style.opacity = '0'; // Fade out first
+            startScreen.style.opacity = '0';
             setTimeout(() => {
-              startScreen.style.display = 'none'; // After fade completes, hide
-              loadModel(); // Now load the first model (water)
-            }, 500); // Match the 0.5s transition
+              startScreen.style.display = 'none';
+              
+              // After user clicks start, listen for marker
+              markerEl.addEventListener('markerFound', () => {
+                loadModel(); // Now load the first model when marker is actually found
+              });
+
+            }, 500);
           });
+
 
 
           // REMOVE this line: loadModel(); from `init`
@@ -222,7 +225,7 @@
       height: 100vw;
       background-color: rgba(0,0,0,0.7); /* semi-transparent! */
       backdrop-filter: blur(4px); /* optional: fancy effect */
-      display: none;
+      display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
