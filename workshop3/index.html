@@ -160,8 +160,8 @@
               modelEntity.setAttribute("visible", "true");
 
               if (index === 0) {
-                modelEntity.setAttribute("scale", "0.001 0.001 0.001"); // match starting scale
-                modelEntity.setAttribute("position", "0 -3.5 -2"); // start just a little low
+                modelEntity.setAttribute("scale", "0.001 0.001 0.001");
+                modelEntity.setAttribute("position", "0 -3.5 -2");
 
                 modelEntity.setAttribute("animation__scale", {
                   property: "scale",
@@ -179,15 +179,19 @@
                   easing: "easeOutCubic"
                 });
 
-                modelEntity.setAttribute("animation__float", {
-                  property: "position",
-                  dir: "alternate",
-                  dur: 3000,
-                  easing: "easeInOutSine",
-                  loop: true,
-                  to: "0 -2.8 -2"
-                });
+                // ⏳ After rise finishes (5 seconds), THEN start floating
+                setTimeout(() => {
+                  modelEntity.setAttribute("animation__float", {
+                    property: "position",
+                    dir: "alternate",
+                    dur: 3000,
+                    easing: "easeInOutSine",
+                    loop: true,
+                    to: "0 -2.8 -2"
+                  });
+                }, 5000); // Wait for rise (5000ms)
               }
+
 
 
               if (index === 1) {
