@@ -159,17 +159,23 @@
               modelEntity.setAttribute("scale", this.data.scales[index]);
               modelEntity.setAttribute("visible", "true");
 
-              if (index === 0) {
-                modelEntity.setAttribute("scale", "0.001 0.001 0.001");
-                modelEntity.setAttribute("animation", {
-                  property: "scale",
-                  from: "0 0 0",
-                  to: "0.05 0.05 0.05",
-                  dur: 5000,
-                  easing: "easeOutCubic"
-                });
-                modelEntity.setAttribute("position", "0 -3 -2");
-              }
+              modelEntity.setAttribute("scale", "0.001 0.001 0.001");
+              modelEntity.setAttribute("position", "0 -5 -2"); // Start lower
+              modelEntity.setAttribute("animation__scale", {
+                property: "scale",
+                from: "0.001 0.001 0.001",
+                to: "0.05 0.05 0.05",
+                dur: 5000,
+                easing: "easeOutCubic"
+              });
+              modelEntity.setAttribute("animation__position", {
+                property: "position",
+                from: "0 -5 -2",
+                to: "0 -3 -2",
+                dur: 5000,
+                easing: "easeOutCubic"
+              });
+
 
               if (index === 1) {
                 modelEntity.setAttribute("position", "-0.5 -0.3 -0.2");
