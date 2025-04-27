@@ -161,12 +161,12 @@
 
               if (index === 0) {
                 modelEntity.setAttribute("scale", "0.001 0.001 0.001");
-                modelEntity.setAttribute("position", "0 -5 -2");
+                modelEntity.setAttribute("position", "0 -3.5 -2"); // <-- Start higher!
 
                 // Scale animation (grow)
                 modelEntity.setAttribute("animation__scale", {
                   property: "scale",
-                  from: "0.001 0.001 0.001",
+                  from: "0.01 0.01 0.01",
                   to: "0.05 0.05 0.05",
                   dur: 5000,
                   easing: "easeOutCubic"
@@ -175,8 +175,8 @@
                 // Position animation (rise)
                 modelEntity.setAttribute("animation__rise", {
                   property: "position",
-                  from: "0 -5 -2",
-                  to: "0 -3 -2",
+                  from: "0 -3.5 -2",   // <-- Match new start
+                  to: "0 -3 -2",       // Target a little higher
                   dur: 5000,
                   easing: "easeOutCubic"
                 });
@@ -184,12 +184,13 @@
                 // Floating animation (after grow)
                 modelEntity.setAttribute("animation__float", {
                   property: "position",
-                  dir: "alternate",    // Move back and forth
-                  dur: 3000,           // 3 seconds up, 3 seconds down
+                  dir: "alternate",
+                  dur: 3000,
                   easing: "easeInOutSine",
                   loop: true,
-                  to: "0 -2.8 -2"      // Slightly higher than -3
+                  to: "0 -2.8 -2"
                 });
+
 
               }
 
