@@ -60,19 +60,13 @@
           const startScreen = document.getElementById('startScreen');
           const startButton = document.getElementById('startButton');
 
-          // --- Important: wait for Start button before listening for marker ---
           startButton.addEventListener('click', () => {
-            startScreen.style.opacity = '0';
-            setTimeout(() => {
-              startScreen.style.display = 'none';
-              
-              // After user clicks start, listen for marker
-              markerEl.addEventListener('markerFound', () => {
-                loadModel(); // Now load the first model when marker is actually found
-              });
-
-            }, 500);
+            startScreen.style.display = 'none'; // Hide the start screen
+            loadModel(); // Now load the first model (water)
           });
+
+          // REMOVE this line: loadModel(); from `init`
+
 
 
 
@@ -221,8 +215,8 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 100vh;
-      height: 100vw;
+      height: 100vh;
+      width: 100vw;
       background-color: rgba(0,0,0,0.7); /* semi-transparent! */
       backdrop-filter: blur(4px); /* optional: fancy effect */
       display: flex;
@@ -232,8 +226,6 @@
       z-index: 20;
       opacity: 1;
       transition: opacity 0.5s ease;
-      transform: rotate(90deg) translate(-50%, -50%);
-      transform-origin: center center;
       pointer-events: auto;
     ">
 
