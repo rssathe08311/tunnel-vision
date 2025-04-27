@@ -160,16 +160,19 @@
               modelEntity.setAttribute("visible", "true");
 
               if (index === 0) {
-                modelEntity.setAttribute("scale", "0.02 0.02 0.02"); // Larger immediately
-                modelEntity.setAttribute("position", "0 -0.5 -2"); // Higher so not buried underground
-
-                modelEntity.setAttribute("animation__scale", {
-                  property: "scale",
-                  from: "0.02 0.02 0.02",
-                  to: "0.05 0.05 0.05",
-                  dur: 5000,
-                  easing: "easeOutCubic"
-                });
+                modelEntity.setAttribute("scale", "0.2 0.2 0.2"); // MUCH bigger for testing
+                modelEntity.setAttribute("position", "0 0 0"); // center exactly at marker
+                modelEntity.setAttribute("rotation", "-90 0 0"); // flat plane facing camera
+                //modelEntity.setAttribute("scale", "0.02 0.02 0.02"); // Larger immediately
+                //modelEntity.setAttribute("position", "0 -0.5 -2"); // Higher so not buried underground
+//
+                //modelEntity.setAttribute("animation__scale", {
+                //  property: "scale",
+                //  from: "0.02 0.02 0.02",
+                //  to: "0.05 0.05 0.05",
+                //  dur: 5000,
+                //  easing: "easeOutCubic"
+                //});
 
                 /*modelEntity.setAttribute("animation__rise", {
                   property: "position",
