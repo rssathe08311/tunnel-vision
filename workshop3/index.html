@@ -56,6 +56,21 @@
             return audio;
           });
 
+          const startScreen = document.getElementById('startScreen');
+          const startButton = document.getElementById('startButton');
+
+          startButton.addEventListener('click', () => {
+            startScreen.style.opacity = '0'; // Fade out first
+            setTimeout(() => {
+              startScreen.style.display = 'none'; // After fade completes, hide
+              loadModel(); // Now load the first model (water)
+            }, 500); // Match the 0.5s transition
+          });
+
+
+          // REMOVE this line: loadModel(); from `init`
+
+
           //const newAudio = preloadedAudio[index];
 
 
@@ -73,10 +88,20 @@
             }
 
             const newAudio = preloadedAudio[index];
+
             newAudio.loop = true;
+
+            // 👇 Add this part:
+            if (index === 2) { // plants sound
+              newAudio.volume = 1.0; // Full volume
+            } else {
+              newAudio.volume = 0.7; // Lower volume for water and subway
+            }
+
             newAudio.play();
             currentAudio = newAudio;
           };
+
 
 
 
@@ -169,7 +194,7 @@
           };
 
           // Initial load
-          loadModel();
+          //loadModel();
 
           // On click, switch model
           sceneEl.addEventListener("click", () => {
@@ -183,8 +208,38 @@
 
   <body style="margin: 0; overflow: hidden;">
     <p>Click anywhere to switch models</p>
+    <!-- START SCREEN -->
+    <div id="startScreen" style="
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0,0,0,0.8);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 20;
+      opacity: 1; /* 👈 Add this */
+      transition: opacity 0.5s ease; /* 👈 Add this */
+    ">
+
+      <h1 style="color: white; font-size: 2em; margin-bottom: 20px;">Welcome to Tunnel Vision</h1>
+      <button id="startButton" style="
+        font-size: 1.5em;
+        padding: 15px 30px;
+        background-color: #00d1b2;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+      ">
+        Start
+      </button>
+    </div>
+
     <!--Tunnel Overlay Image-->
-    <audio src="./audio/water1.mp3"></audio>
     <div style="
       position: absolute;
       top: 0;
