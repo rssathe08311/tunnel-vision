@@ -220,7 +220,8 @@
       left: 50%;
       width: 100vh;
       height: 100vw;
-      background-color: rgba(0,0,0,0.8);
+      background-color: rgba(0,0,0,0.7); /* semi-transparent! */
+      backdrop-filter: blur(4px); /* optional: fancy effect */
       display: none;
       flex-direction: column;
       justify-content: center;
@@ -230,7 +231,9 @@
       transition: opacity 0.5s ease;
       transform: rotate(90deg) translate(-50%, -50%);
       transform-origin: center center;
+      pointer-events: auto;
     ">
+
       <h1 style="color: white; font-size: 2em; margin-bottom: 20px;">Welcome to Tunnel Vision</h1>
       <button id="startButton" style="
         font-size: 1.5em;
