@@ -56,18 +56,16 @@
             return audio;
           });
 
-
           const startScreen = document.getElementById('startScreen');
           const startButton = document.getElementById('startButton');
 
           startButton.addEventListener('click', () => {
-            startScreen.style.display = 'none'; // Hide the start screen
-            loadModel(); // Now load the first model (water)
+            startScreen.style.opacity = '0'; // Fade out first
+            setTimeout(() => {
+              startScreen.style.display = 'none'; // After fade completes, hide
+              loadModel(); // Now load the first model (water)
+            }, 500); // Match the 0.5s transition
           });
-
-          // REMOVE this line: loadModel(); from `init`
-
-
 
 
           // REMOVE this line: loadModel(); from `init`
@@ -130,7 +128,7 @@
                 plantEntity.setAttribute("gltf-model", this.data.models[index]);
                 plantEntity.setAttribute("rotation", rotations[index]);
                 plantEntity.setAttribute("scale", `${scaleMultiplier * 0.001} ${scaleMultiplier * 0.001} ${scaleMultiplier * 0.001}`);
-                plantEntity.setAttribute("position", `${offsetX} -5.5 ${offsetZ}`);
+                plantEntity.setAttribute("position", `${offsetX} -5 ${offsetZ}`);
 
                 plantEntity.setAttribute("animation__scale", {
                   property: "scale",
@@ -176,7 +174,7 @@
                   dur: 5000,
                   easing: "easeOutCubic"
                 });
-                modelEntity.setAttribute("position", "0 -2.5 -2");
+                modelEntity.setAttribute("position", "0 -1 -2");
               }
 
               if (index === 1) {
@@ -213,24 +211,19 @@
     <!-- START SCREEN -->
     <div id="startScreen" style="
       position: absolute;
-      top: 50%;
-      left: 50%;
-      height: 100vw;
-      width: 100vh;
-      background-color: rgba(0,0,0,0.7);
-      backdrop-filter: blur(4px);
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0,0,0,0.8);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       z-index: 20;
-      opacity: 1;
-      transition: opacity 0.5s ease;
-      transform: rotate(90deg) translate(-50%, -50%);
-      transform-origin: center center;
-      pointer-events: auto;
+      opacity: 1; /* 👈 Add this */
+      transition: opacity 0.5s ease; /* 👈 Add this */
     ">
-
 
       <h1 style="color: white; font-size: 2em; margin-bottom: 20px;">Welcome to Tunnel Vision</h1>
       <button id="startButton" style="
@@ -245,7 +238,6 @@
         Start
       </button>
     </div>
-
 
     <!--Tunnel Overlay Image-->
     <div style="
