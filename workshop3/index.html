@@ -68,12 +68,6 @@
           });
 
 
-          // REMOVE this line: loadModel(); from `init`
-
-
-          //const newAudio = preloadedAudio[index];
-
-
           const playSound = (index) => {
             if (typeof AudioContext !== "undefined") {
               const context = new (window.AudioContext || window.webkitAudioContext)();
@@ -174,7 +168,7 @@
                   dur: 5000,
                   easing: "easeOutCubic"
                 });
-                modelEntity.setAttribute("position", "0 -1 -2");
+                modelEntity.setAttribute("position", "0 -3 -2");
               }
 
               if (index === 1) {
@@ -225,7 +219,8 @@
       transition: opacity 0.5s ease; /* 👈 Add this */
     ">
 
-      <h1 style="color: white; font-size: 2em; margin-bottom: 20px;">Welcome to Tunnel Vision</h1>
+      <h1 style="color: white; font-size: 2em; margin-bottom: 20px; text-align: center;">Welcome to Tunnel Vision</h1>
+      <p style="color: white; font-size: 1.2em; text-align: center; margin-bottom: 20px;">Rotate your device sideways(landscape) for this experience!</p>
       <button id="startButton" style="
         font-size: 1.5em;
         padding: 15px 30px;
