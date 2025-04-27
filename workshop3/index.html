@@ -58,6 +58,11 @@
 
           const startScreen = document.getElementById('startScreen');
           const startButton = document.getElementById('startButton');
+          markerEl.addEventListener('markerFound', () => {
+            startScreen.style.display = 'flex'; // Now show the start screen
+            startScreen.style.opacity = '1'; // Reset opacity
+          });
+
 
           startButton.addEventListener('click', () => {
             startScreen.style.opacity = '0'; // Fade out first
@@ -211,23 +216,21 @@
     <!-- START SCREEN -->
     <div id="startScreen" style="
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100vh; /* <-- switched width and height */
+      top: 50%;
+      left: 50%;
+      width: 100vh;
       height: 100vw;
       background-color: rgba(0,0,0,0.8);
-      display: flex;
+      display: none;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       z-index: 20;
       opacity: 1;
       transition: opacity 0.5s ease;
-      transform: rotate(90deg); /* 👈 this rotates it */
-      transform-origin: center center; /* 👈 rotate around center */
+      transform: rotate(90deg) translate(-50%, -50%);
+      transform-origin: center center;
     ">
-
-
       <h1 style="color: white; font-size: 2em; margin-bottom: 20px;">Welcome to Tunnel Vision</h1>
       <button id="startButton" style="
         font-size: 1.5em;
@@ -241,6 +244,7 @@
         Start
       </button>
     </div>
+
 
     <!--Tunnel Overlay Image-->
     <div style="
