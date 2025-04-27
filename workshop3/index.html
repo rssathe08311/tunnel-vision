@@ -128,7 +128,7 @@
                 plantEntity.setAttribute("gltf-model", this.data.models[index]);
                 plantEntity.setAttribute("rotation", rotations[index]);
                 plantEntity.setAttribute("scale", `${scaleMultiplier * 0.001} ${scaleMultiplier * 0.001} ${scaleMultiplier * 0.001}`);
-                plantEntity.setAttribute("position", `${offsetX} -5 ${offsetZ}`);
+                plantEntity.setAttribute("position", `${offsetX} -5.5 ${offsetZ}`);
 
                 plantEntity.setAttribute("animation__scale", {
                   property: "scale",
@@ -174,7 +174,7 @@
                   dur: 5000,
                   easing: "easeOutCubic"
                 });
-                modelEntity.setAttribute("position", "0 -1 -2");
+                modelEntity.setAttribute("position", "0 -2.5 -2");
               }
 
               if (index === 1) {
@@ -213,17 +213,20 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 100vw;
-      height: 100vh;
+      width: 100vh; /* <-- switched width and height */
+      height: 100vw;
       background-color: rgba(0,0,0,0.8);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       z-index: 20;
-      opacity: 1; /* 👈 Add this */
-      transition: opacity 0.5s ease; /* 👈 Add this */
+      opacity: 1;
+      transition: opacity 0.5s ease;
+      transform: rotate(90deg); /* 👈 this rotates it */
+      transform-origin: center center; /* 👈 rotate around center */
     ">
+
 
       <h1 style="color: white; font-size: 2em; margin-bottom: 20px;">Welcome to Tunnel Vision</h1>
       <button id="startButton" style="
