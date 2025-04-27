@@ -27,9 +27,10 @@
           },
           currentIndex: { type: 'number', default: 0 },
                 sounds: { type: 'array', default: [
-            "media/water1.mp3",
-            "media/subway.mp3",
-            "media/plants.mp3"
+            "./audio/water1.mp3",
+            "./audio/subway.mp3",
+            "./audio/plants.mp3",
+            
           ]}
         },
 
@@ -183,6 +184,7 @@
   <body style="margin: 0; overflow: hidden;">
     <p>Click anywhere to switch models</p>
     <!--Tunnel Overlay Image-->
+    <audio src="./audio/water1.mp3"></audio>
     <div style="
       position: absolute;
       top: 0;
