@@ -160,8 +160,8 @@
               modelEntity.setAttribute("visible", "true");
 
               if (index === 0) {
-                modelEntity.setAttribute("scale", "0.05 0.05 0.05"); // MUCH bigger for testing
-                modelEntity.setAttribute("position", "0 -1 0"); 
+                modelEntity.setAttribute("scale", "0.04 0.04 0.04"); // MUCH bigger for testing
+                modelEntity.setAttribute("position", "0 -2 0"); 
                 modelEntity.setAttribute("visible", "true");
 
                 modelEntity.setAttribute("animation_rise", {
@@ -171,37 +171,6 @@
                   dur: 5000,
                   easing: "easeOutCubic"
                 })
-                //modelEntity.setAttribute("scale", "0.02 0.02 0.02"); // Larger immediately
-                //modelEntity.setAttribute("position", "0 -0.5 -2"); // Higher so not buried underground
-//
-                //modelEntity.setAttribute("animation__scale", {
-                //  property: "scale",
-                //  from: "0.02 0.02 0.02",
-                //  to: "0.05 0.05 0.05",
-                //  dur: 5000,
-                //  easing: "easeOutCubic"
-                //});
-
-                /*modelEntity.setAttribute("animation__rise", {
-                  property: "position",
-                  from: "0 -3.5 -2",
-                  to: "0 -3 -2",
-                  dur: 5000,
-                  easing: "easeOutCubic"
-                });
-
-                // ⏳ After rise finishes (5 seconds), THEN start floating
-                setTimeout(() => {
-                  modelEntity.setAttribute("animation__float", {
-                    property: "position",
-                    dir: "alternate",
-                    dur: 3000,
-                    easing: "easeInOutSine",
-                    loop: true,
-                    to: "0 -2.8 -2"
-                  });
-                }, 5000); // Wait for rise (5000ms)
-                */
               }
 
 
