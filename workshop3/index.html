@@ -163,6 +163,14 @@
                 modelEntity.setAttribute("scale", "0.05 0.05 0.05"); // MUCH bigger for testing
                 modelEntity.setAttribute("position", "0 0 0"); 
                 modelEntity.setAttribute("visible", "true");
+
+                modelEntity.setAttribute("animation_grow", {
+                  property: "scale",
+                  from: "0.001, 0.001, 0.001",
+                  to: "0.05, 0.05, 0.05",
+                  dur: 5000,
+                  easing: "easeOutCubic"
+                })
                 //modelEntity.setAttribute("scale", "0.02 0.02 0.02"); // Larger immediately
                 //modelEntity.setAttribute("position", "0 -0.5 -2"); // Higher so not buried underground
 //
