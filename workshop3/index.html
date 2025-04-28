@@ -107,7 +107,11 @@
 
             const index = this.data.currentIndex;
             statusText.setAttribute("text", "value", modelNames[index]);
-            playSound(index);
+            
+            if (index !== 0) {
+              playSound(index); 
+            }
+
 
             if (index === 2) {
               // Multiple plants setup
@@ -179,6 +183,9 @@
                   dur: 5000,
                   easing: "easeOutCubic"
                 })
+                modelEntity.addEventListener('animation__rise-start', () => {
+                  playSound(index);
+                });
               }
 
 
