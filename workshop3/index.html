@@ -173,7 +173,8 @@
                   from: "0 -6 0",
                   to: "0 -3 0",
                   dur: 5000,
-                  easing: "easeOutCubic"
+                  easing: "easeOutCubic",
+                  startEvents: "start-rise" 
                 })
 
                 modelEntity.setAttribute("animation__grow", {
@@ -181,7 +182,8 @@
                   from: "0.01 0.01 0.01",
                   to: "0.03 0.03 0.03",
                   dur: 5000,
-                  easing: "easeOutCubic"
+                  easing: "easeOutCubic",
+                  startEvents: "start-rise" 
                 })
                 modelEntity.addEventListener('animation__rise-start', () => {
                   playSound(index);
@@ -203,6 +205,10 @@
               }
 
               markerEl.appendChild(modelEntity);
+
+              if (index === 0) {
+                modelEntity.emit('start-rise');
+              }
             }
           };
 
