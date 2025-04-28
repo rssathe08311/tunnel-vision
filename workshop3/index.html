@@ -107,11 +107,7 @@
 
             const index = this.data.currentIndex;
             statusText.setAttribute("text", "value", modelNames[index]);
-            
-            if (index !== 0) {
-              playSound(index); 
-            }
-
+            playSound(index);
 
             if (index === 2) {
               // Multiple plants setup
@@ -173,8 +169,7 @@
                   from: "0 -6 0",
                   to: "0 -3 0",
                   dur: 5000,
-                  easing: "easeOutCubic",
-                  startEvents: "start-rise" 
+                  easing: "easeOutCubic"
                 })
 
                 modelEntity.setAttribute("animation__grow", {
@@ -182,12 +177,8 @@
                   from: "0.01 0.01 0.01",
                   to: "0.03 0.03 0.03",
                   dur: 5000,
-                  easing: "easeOutCubic",
-                  startEvents: "start-rise" 
+                  easing: "easeOutCubic"
                 })
-                modelEntity.addEventListener('animation__rise-start', () => {
-                  playSound(index);
-                });
               }
 
 
@@ -205,10 +196,6 @@
               }
 
               markerEl.appendChild(modelEntity);
-
-              if (index === 0) {
-                modelEntity.emit('start-rise');
-              }
             }
           };
 
@@ -245,7 +232,7 @@
     ">
 
       <h1 style="color: white; font-size: 2em; margin-bottom: 20px; text-align: center;">Welcome to Tunnel Vision</h1>
-      <p style="color: white; font-size: 1.2em; text-align: center; margin-bottom: 20px;">Rotate your device sideways(landscape) for this experience!</p>
+      <p style="color: white; font-size: 1.2em; text-align: center; margin-bottom: 20px;">Rotate your device sideways(landscape) for this experience! Wait to see a model before clicking!</p>
       <button id="startButton" style="
         font-size: 1.5em;
         padding: 15px 30px;
